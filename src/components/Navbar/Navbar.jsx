@@ -9,7 +9,7 @@ const Navbar = ({
   return (
     <div className="cnNavbarRoot">
       <div className="cnNavbarWrapper">
-        <span>My_Instagram</span>
+        <span>Clone Instagram</span>
         <UserBadge nickName={nickName} avatarUrl={avatarUrl} id={id} />
       </div>
     </div>

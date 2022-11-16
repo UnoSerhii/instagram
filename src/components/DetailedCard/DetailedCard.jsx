@@ -6,12 +6,14 @@ import "./styles.scss";
 
 const DetailedCard = ({
   userName,
+  userId,
   avatarUrl,
-  id,
   imgUrl,
   likes,
   isLikedByYou,
   comments,
+  onLikeClick,
+  id,
 }) => {
   const [isCommentsShow, setIsCommentsShow] = useState(false);
 
@@ -33,13 +35,13 @@ const DetailedCard = ({
   return (
     <div className={"cnDetailedCardRoot cnMainPageCard"}>
       <div className="cnDetailedCardHeader">
-        <UserBadge nickName={userName} avatarUrl={avatarUrl} id={id} />
+        <UserBadge nickName={userName} avatarUrl={avatarUrl} id={userId} />
       </div>
       <div>
         <img src={imgUrl} alt="img" className="cnDetailedCardImg" />
       </div>
       <div className="cnDetailedCardButtons">
-        <i className={`${isLikedByYou ? 'fas' : 'far'} fa-heart cnDetailedLikeIcon`} />
+        <i onClick={() => onLikeClick(id)} className={`${isLikedByYou ? 'fas' : 'far'} fa-heart cnDetailedLikeIcon`} />
         <i className="fas fa-comment cnDetailedLikeComment" />
       </div>
       <div className="cnDetailedCardLikes">

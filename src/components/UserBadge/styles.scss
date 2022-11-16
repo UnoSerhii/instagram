@@ -1,18 +1,20 @@
 .cnUserBadgeRoot {
   display: flex;
+  align-items: center;
   cursor: pointer;
 }
 
 .cnUserBadgeAvatar {
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
+  object-fit: cover;
   margin-right: 10px;
   border-radius: 50%;
 }
 
 .cnUserBadgePlaceholder {
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
   margin-right: 10px;
   border-radius: 50%;
   background: #efefef;
