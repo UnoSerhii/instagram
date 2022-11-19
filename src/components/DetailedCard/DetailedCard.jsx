@@ -14,8 +14,18 @@ const DetailedCard = ({
   comments,
   onLikeClick,
   id,
+  onCommentSendClick,
+  mutateLoading,
 }) => {
   const [isCommentsShow, setIsCommentsShow] = useState(false);
+  const [comment, setComment] = useState("");
+
+  const handleSendCommentClick = () => {
+    if (comment) {
+      onCommentSendClick(id, comment);
+      setComment('');
+    }
+  }
 
   const renderComments = () => {
     if (comments.length > 2 && !isCommentsShow) {
@@ -24,13 +34,17 @@ const DetailedCard = ({
 
       return (
         <>
-        <span className="cnDetailedCardLikeCommentTitle" onClick={() => setIsCommentsShow(true)}>{`View all ${comments.length - commentForRender.length} comments`}</span>
-        {commentForRender.map((comment) => <Comment {...comment} key={nanoid()} />)}
+          <span className="cnDetailedCardLikeCommentTitle" onClick={() => setIsCommentsShow(true)}>{`View all ${
+            comments.length - commentForRender.length
+          } comments`}</span>
+          {commentForRender.map((comment) => (
+            <Comment {...comment} key={nanoid()} />
+          ))}
         </>
-      )
+      );
     }
-    return comments.map((comment) => <Comment {...comment} key={nanoid()} />)
-  }
+    return comments.map((comment) => <Comment {...comment} key={nanoid()} />);
+  };
 
   return (
     <div className={"cnDetailedCardRoot cnMainPageCard"}>
@@ -41,16 +55,20 @@ const DetailedCard = ({
         <img src={imgUrl} alt="img" className="cnDetailedCardImg" />
       </div>
       <div className="cnDetailedCardButtons">
-        <i onClick={() => onLikeClick(id)} className={`${isLikedByYou ? 'fas' : 'far'} fa-heart cnDetailedLikeIcon`} />
-        <i className="fas fa-comment cnDetailedLikeComment" />
+        <i onClick={() => onLikeClick(id)} className={`${isLikedByYou ? "fas" : "far"} fa-heart cnDetailedLikeIcon`} />
+        <i className="far fa-comment cnDetailedLikeComment" />
       </div>
-      <div className="cnDetailedCardLikes">
-        {`Like ${likes} people`}
+      <div className="cnDetailedCardLikes">{`Like ${likes} people`}</div>
+      <div className="cnDetailedCardComments">{renderComments()}</div>
+      <div className="cnDetailedCardTextAreaWrapper">
+        <textarea
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
+          placeholder="Add a comment..."
+          className="cnDetailedCardTextArea"
+        />
+        <button disabled={mutateLoading} onClick={handleSendCommentClick} className="cnDetailedCardSendButton">Post</button>
       </div>
-      <div className="cnDetailedCardComments">
-        {renderComments()}
-      </div>
-      <textarea className="cnDetailedCardTextArea" />
     </div>
   );
 };

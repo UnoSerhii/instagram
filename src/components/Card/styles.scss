@@ -1,0 +1,59 @@
+.cnCardRoot {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, .2);
+}
+
+.cnCardImage {
+  width: 300px;
+  height: 300px;
+  object-fit: cover;
+}
+
+.cnCardHover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: none;
+  background: #000;
+  opacity: .4;
+}
+
+.cnCardRoot:hover .cnCardHover {
+  display: flex;
+}
+
+.onCardIcons {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.cnCardRoot:hover .onCardIcons {
+  display: flex;
+}
+
+.cnCardIcon {
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.cnCardNumber {
+  margin-left: 5px;
+  color: white;
+  font-size: 20px;
+  line-height: 20px;
+}
+
+.cnCardLikes {
+  margin-right: 10px;
+}

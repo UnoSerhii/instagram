@@ -1,4 +1,5 @@
 import { api } from "../../api";
+import { getPhotoFormState, getUpdatePhotoForState } from "../../utils";
 import {
   getPhotosFailed,
   getPhotosStarted,
@@ -36,16 +37,12 @@ export const getPhotos = (page = 1) => {
   };
 };
 
-export const mutatePhoto = (userId, photoId) => {
+export const toggleLike = (userId, photoId) => {
   return async (dispatch, getState) => {
     dispatch(mutatePhotoStarted());
     const state = getState();
-    const photo = state.photos.photos.find((elem) => elem.id === photoId);
-    
-    const newPhoto = {
-      ...photo,
-      likes: [...photo.likes],
-    };
+
+    const newPhoto = getPhotoFormState(state.photos.photos, photoId);
 
     if (newPhoto.likes.includes(userId)) {
       newPhoto.likes = newPhoto.likes.filter((like) => like !== userId);
@@ -59,14 +56,34 @@ export const mutatePhoto = (userId, photoId) => {
         url: `/${photoId}`,
       });
 
-      const newPhotos = [...state.photos.photos];
-      const photoIndex = newPhotos.findIndex((photo) => photo.id === photoId);
-      newPhotos[photoIndex] = response.data;
+      const newPhotos = getUpdatePhotoForState(state.photos.photos, photoId, response.data);
 
-      dispatch(getPhotosSuccess(newPhotos))
+      dispatch(getPhotosSuccess(newPhotos));
       dispatch(mutatePhotoSuccess());
     } catch (error) {
       dispatch(mutatePhotoFailed(error));
     }
+  };
+};
+
+export const sendComment = (nickname, photoId, text) => {
+  return async (dispatch, getState) => {
+    dispatch(mutatePhotoStarted());
+    const state = getState();
+
+    const newPhoto = getPhotoFormState(state.photos.photos, photoId);
+
+    newPhoto.comments.push({ nickname, text });
+
+    try {
+      const response = await api.photos.mutatePhoto({
+        data: newPhoto,
+        url: `/${photoId}`,
+      });
+      const newPhotos = getUpdatePhotoForState(state.photos.photos, photoId, response.data);
+
+      dispatch(getPhotosSuccess(newPhotos));
+      dispatch(mutatePhotoSuccess());
+    } catch (error) {}
   };
 };

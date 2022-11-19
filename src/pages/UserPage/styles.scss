@@ -1,0 +1,19 @@
+.cnUserPageRoot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20px;
+}
+
+.cnUserPageRootContent {
+  display: flex;
+  flex-wrap: wrap;
+  padding-top: 100px;
+  gap: 10px;
+  width: 930px;
+}
+
+.cnUserPageCard {
+  margin-bottom: 100px;
+  margin-right: 100px;
+}

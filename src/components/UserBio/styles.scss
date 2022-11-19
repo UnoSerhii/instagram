@@ -1,0 +1,44 @@
+.cnUserBioRoot {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cnUserBioAvatar {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  margin-right: 60px;
+  margin-bottom: 20px;
+}
+
+.cnUserBioInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.cnUserBioRow {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+  gap: 40px;
+}
+
+.cnUserBioContent {
+  margin-bottom: 20px;
+}
+
+.cnUserBioNickname {
+  font-size: 27px;
+  font-weight: 600;
+  margin-right: 10px;
+  margin-bottom: 20px;
+}
+
+.cnUserBioCounter {
+  margin-right: 10px;
+}
+
+.cnUserBioName {
+  font-weight: 600;
+}
