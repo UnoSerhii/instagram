@@ -1,17 +1,27 @@
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import Card from "../../components/Card/Card";
 import Layout from "../../components/Layout/Layout";
 import UserBio from "../../components/UserBio/UserBio";
-import { toggleLike } from "../../redux/actions/photos";
+import { getPostsByUser, toggleLikeOnPost } from "../../redux/actions/postsByUser";
 import "./styles.scss";
 
 const UserPage = () => {
-  const authorizedUser = useSelector(state => state.users.authorizedUser);
+  const authorizedUser = useSelector((state) => state.users.authorizedUser);
+  const posts = useSelector((state) => state.postsByUser.posts);
+  const isLoading = useSelector((state) => state.postsByUser.isPostsLoading);
   const dispatch = useDispatch();
+  const { id } = useParams();
+
+  useEffect(() => {
+    dispatch(getPostsByUser(id));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const onLikeClick = (photoId) => {
-    dispatch(toggleLike(authorizedUser.id, photoId))
-  }
+    dispatch(toggleLikeOnPost(authorizedUser.id, photoId, id));
+  };
 
   return (
     <Layout nickName={authorizedUser.nickname} id={authorizedUser.id} avatarUrl={authorizedUser.avatarUrl}>
@@ -25,13 +35,20 @@ const UserPage = () => {
           lastName={authorizedUser.lastName}
           description={authorizedUser.description}
           url={authorizedUser.url}
-          />
+        />
 
-          <div className="cnUserPageRootContent">
-            <Card imgUrl="" className="cnUserPageRootContent" likes={10} comments={20} onLikeClick={() => onLikeClick('')} />
-            <Card imgUrl="" className="cnUserPageRootContent" likes={10} comments={20} />
-            <Card imgUrl="" className="cnUserPageRootContent" likes={10} comments={20} />
-          </div>
+        <div className="cnUserPageRootContent">
+          {posts.map(({comments, likes, imgUrl, id}) =>
+            <Card
+              imgUrl={imgUrl}
+              className="cnUserPageRootCard"
+              likes={likes.length}
+              comments={comments.length}
+              isLikeByYou={likes.includes(authorizedUser.id)}
+              onLikeClick={() => onLikeClick(id)}
+            />
+          )}
+        </div>
       </div>
     </Layout>
   );
