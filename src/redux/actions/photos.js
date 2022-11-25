@@ -84,6 +84,8 @@ export const sendComment = (nickname, photoId, text) => {
 
       dispatch(getPhotosSuccess(newPhotos));
       dispatch(mutatePhotoSuccess());
-    } catch (error) {}
+    } catch (error) {
+      dispatch(mutatePhotoFailed(error))
+    }
   };
 };

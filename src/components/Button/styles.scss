@@ -1,0 +1,19 @@
+.cnSendButton {
+  position: relative;
+  padding: 18px;
+  background: none;
+  border: none;
+  font-size: 16px;
+  font-weight: 600;
+  color: #9fd6e4;
+  bottom: 0;
+  right: 0;
+  background: white;
+  cursor: pointer;
+  &:active {
+    color: #427380;
+  }
+  &:disabled {
+    color: red;
+  }
+}

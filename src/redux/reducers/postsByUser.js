@@ -2,7 +2,7 @@ import { GET_POSTS_FAILED, GET_POSTS_STARTED, GET_POSTS_SUCCESS } from "../actio
 
 const initialState = {
   posts: [],
-  isPostsLoading: false,
+  isPostsLoading: true,
 }
 
 export const postsByUserReducer = (state = initialState, action) => {

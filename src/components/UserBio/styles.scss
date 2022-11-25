@@ -19,7 +19,7 @@
 
 .cnUserBioRow {
   display: flex;
-  align-items: center;
+  justify-content: space-between;
   margin-bottom: 5px;
   gap: 40px;
 }
@@ -41,4 +41,16 @@
 
 .cnUserBioName {
   font-weight: 600;
+}
+
+.cnButton {
+  font-size: 16px;
+  font-weight: 600;
+  width: 100px;
+  height: 40px;
+  border: 1px solid gray;
+  border-radius: 5px;
+  &:hover {
+    background-color: rgb(211, 211, 211);
+  }
 }

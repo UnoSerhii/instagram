@@ -13,7 +13,6 @@ export const getPostsByUser = (config) => {
 
 export const mutatePosts = (config) => {
   config.url = `${URL}${config.url}`;
-  console.log(config, 'config');
 
   return makeRequest({
     method: 'PUT',

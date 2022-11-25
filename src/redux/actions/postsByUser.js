@@ -1,4 +1,6 @@
 import { api } from "../../api";
+import { getUserPagePostData } from "../../utils";
+import { mutatePhotoFailed, mutatePhotoStarted, mutatePhotoSuccess } from "../actionCreators/photos";
 import { getPostsFailed, getPostsStarted, getPostsSuccess } from "../actionCreators/postsByUser";
 
 export const getPostsByUser = (userId) => {
@@ -21,29 +23,51 @@ export const toggleLikeOnPost = (userId, postId, postAuthorId) => {
   return async (dispatch, getState) => {
     try {
       const posts = getState().postsByUser.posts;
+      const {postForEdit, newPosts} = getUserPagePostData(posts, postId)
 
-      const newPosts = [...posts];
-      const newPostIndex = newPosts.findIndex((post) => post.id === postId);
-      const postForEdit = newPosts[newPostIndex];
-
-      console.log(postForEdit);
       if (postForEdit.likes.includes(userId)) {
         postForEdit.likes = postForEdit.likes.filter((like) => like !== userId);
       } else {
         postForEdit.likes.push(userId);
       }
-      console.log(postForEdit);
-      console.log(newPosts);
-      
-      await api.postsByUser.mutatePosts({
+
+      const response = await api.postsByUser.mutatePosts({
         url: `/${postAuthorId}`,
-        body: {
+        data: {
           id: postAuthorId,
           posts: newPosts,
         },
       });
 
-      dispatch(getPostsSuccess(newPosts));
-    } catch (error) {}
+      dispatch(getPostsSuccess([...response.data.posts]));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const sendCommentOnUserPage = (nickname, postId, postAuthorId, text) => {
+  return async (dispatch, getState) => {
+    dispatch(mutatePhotoStarted());
+    const posts = getState().postsByUser.posts;
+    const {postForEdit, newPosts} = getUserPagePostData(posts, postId)
+
+
+    postForEdit.comments.push({ nickname, text });
+
+    try {
+      const response = await api.postsByUser.mutatePosts({
+        url: `/${postAuthorId}`,
+        data: {
+          id: postAuthorId,
+          posts: newPosts,
+        },
+      });
+
+      dispatch(getPostsSuccess([...response.data.posts]));
+      dispatch(mutatePhotoSuccess());
+    } catch (error) {
+      dispatch(mutatePhotoFailed(error))
+    }
   };
 };

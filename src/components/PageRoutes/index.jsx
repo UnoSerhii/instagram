@@ -15,7 +15,7 @@ const authorizedRoutes = [
 
 const PageRoutes = () => {
   const authorizedUser = useSelector((state) => state.users.authorizedUser);
-  const isLoading = useSelector((state) => state.users.isUserLoading);
+  const isLoading = useSelector((state) => state.users.isAuthorizedUserLoading);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -26,7 +26,7 @@ const PageRoutes = () => {
   if (isLoading) {
     return (
       <div className="cnPageRoutesLoader">
-        <Bars color="#FF0000" height={80} width={80} />;
+        <Bars color="#FF0000" height={80} width={80} />
       </div>
     );
   }

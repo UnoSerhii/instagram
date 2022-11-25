@@ -1,0 +1,22 @@
+.cnTextArea {
+  box-sizing: border-box;
+  border: none;
+  background: #fff;
+  padding: 10px;
+  outline: none;
+  resize: none;
+  width: 90%;
+}
+
+.cnTextAreaWrapper {
+  display: flex;
+  font-size: 14px;
+  color: #dbdbdb;
+  cursor: pointer;
+  border-top: 1px solid #d3d1d1;
+}
+
+.cnButton {
+  background: white;
+  position: relative;
+}
