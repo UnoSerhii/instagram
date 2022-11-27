@@ -3,6 +3,7 @@ import { GET_POSTS_FAILED, GET_POSTS_STARTED, GET_POSTS_SUCCESS } from "../actio
 const initialState = {
   posts: [],
   isPostsLoading: true,
+  isPostsError: false,
 }
 
 export const postsByUserReducer = (state = initialState, action) => {
@@ -18,12 +19,14 @@ export const postsByUserReducer = (state = initialState, action) => {
         ...state,
         posts: action.payload,
         isPostsLoading: false,
+        isPostsError: false,
       }
 
     case GET_POSTS_FAILED:
       return {
         ...state,
         isPostsLoading: false,
+        isPostsError: true,
       }
   
     default:

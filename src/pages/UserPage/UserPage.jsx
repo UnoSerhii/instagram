@@ -15,8 +15,10 @@ const UserPage = () => {
   const authorizedUser = useSelector((state) => state.users.authorizedUser);
   const user = useSelector((state) => state.users.user);
   const posts = useSelector((state) => state.postsByUser.posts);
+  const isPostError = useSelector((state) => state.postsByUser.isPostsError);
   const isPostsLoading = useSelector((state) => state.postsByUser.isPostsLoading);
   const isUserLoading = useSelector((state) => state.users.isUserLoading);
+  const isUserError = useSelector((state) => state.users.isUserError);
   const mutateLoading = useSelector((state) => state.photos.mutateLoading);
   const dispatch = useDispatch();
   const { id } = useParams();
@@ -41,8 +43,8 @@ const UserPage = () => {
   };
 
   const onCommentSendClick = (photoId, comment) => {
-    dispatch(sendCommentOnUserPage(authorizedUser.nickname, photoId, user.id, comment))
-  }
+    dispatch(sendCommentOnUserPage(authorizedUser.nickname, photoId, user.id, comment));
+  };
 
   const nextHandler = () => {
     const newPosts = [...posts];
@@ -60,7 +62,7 @@ const UserPage = () => {
         </div>
       ) : (
         <div className="cnUserPageRoot">
-          <UserBio
+          {!isUserError && <UserBio
             avatarUrl={user.avatarUrl}
             nickname={user.nickname}
             subscribers={user.subscribers.length}
@@ -71,7 +73,7 @@ const UserPage = () => {
             url={user.url}
             isMyPage={+id === +authorizedUser.id}
             isSubscribed={user.subscribers.includes(authorizedUser.id)}
-          />
+          />}
           <div className="cnUserPageRootContent">
             {postsForRender.length ? (
               <InfiniteScroll
@@ -86,27 +88,29 @@ const UserPage = () => {
                 endMessage={<p className="cnMainLoaderContainer">Thats all!</p>}
                 className="cnUserPageScroll"
               >
-                {postsForRender.map(({ comments, likes, imgUrl, id }) => (
-                  <Card
-                    key={nanoid()}
-                    imgUrl={imgUrl}
-                    className="cnUserPageCard"
-                    likes={likes.length}
-                    comments={comments}
-                    isLikeByYou={likes.includes(authorizedUser.id)}
-                    onLikeClick={() => onLikeClick(id)}
-                    userData={{
-                      userName: user.nickname,
-                      avatarUrl: user.avatarUrl,
-                      userId: user.id,
-                    }}
-                    onCommentSubmit={(comment) => onCommentSendClick(id, comment)}
-                    isMutateLoading={mutateLoading}
-                  />
-                ))}
+                {postsForRender.map(({ comments, likes, imgUrl, id }) => {
+                  return (
+                    <Card
+                      key={nanoid()}
+                      imgUrl={imgUrl}
+                      className="cnUserPageCard"
+                      likes={likes.length}
+                      comments={comments}
+                      isLikeByYou={likes.includes(authorizedUser.id)}
+                      onLikeClick={() => onLikeClick(id)}
+                      userData={{
+                        userName: user.nickname,
+                        avatarUrl: user.avatarUrl,
+                        userId: user.id,
+                      }}
+                      onCommentSubmit={(comment) => onCommentSendClick(id, comment)}
+                      isMutateLoading={mutateLoading}
+                    />
+                  );
+                })}
               </InfiniteScroll>
             ) : (
-              <p className="cnUserPageNoPosts">User don't have posts</p>
+              !isPostError && <p className="cnUserPageNoPosts">User don't have posts</p>
             )}
           </div>
         </div>

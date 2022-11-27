@@ -53,7 +53,7 @@ const PhotoModal = ({
           </div>
           <div>
             <div className="cnModalIcons">
-              <i onClick={onLikeClick} className={`${isLikeByYou ? 'fa' : 'far'} fa-heart cnModalLikeIcon`} />
+              <i onClick={onLikeClick} className={`${isLikeByYou ? 'fas' : 'far'} fa-heart cnModalLikeIcon`} />
             </div>
             <TextArea
             value={commentValue}

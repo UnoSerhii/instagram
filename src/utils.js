@@ -1,3 +1,5 @@
+import { toast } from "react-toastify";
+
 export const getPhotoFormState = (photos, photoId) => {
   const photo = photos.find((elem) => elem.id === photoId);
 
@@ -21,3 +23,7 @@ export const getUserPagePostData = (posts, postId) => {
     postForEdit,
   };
 };
+
+export const getError = ({response: {status, statusText}}) => {
+  toast.error(`${status}: ${statusText}`)
+}

@@ -9,7 +9,8 @@ import "./styles.scss";
 
 const MainPage = () => {
   const photos = useSelector((state) => state.photos.photos);
-  const loading = useSelector((state) => state.photos.isPhotosLoading);
+  const isLoading = useSelector((state) => state.photos.isPhotosLoading);
+  const isError = useSelector((state) => state.photos.isPhotoError);
   const authorizedUser = useSelector((state) => state.users.authorizedUser);
   const total = useSelector((state) => state.photos.totalPhotos);
   const mutateLoading = useSelector((state) => state.photos.mutateLoading);
@@ -19,43 +20,37 @@ const MainPage = () => {
 
   useEffect(() => {
     dispatch(getPhotos(page));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
-
-
   const nextHandler = () => {
-    setPage(page + 1)
-  }
+    setPage(page + 1);
+  };
 
   const onLikeClick = (photoId) => {
-    dispatch(toggleLike(authorizedUser.id, photoId))
-  }
+    dispatch(toggleLike(authorizedUser.id, photoId));
+  };
 
   const onCommentSendClick = (photoId, comment) => {
-    dispatch(sendComment(authorizedUser.nickname, photoId, comment))
-  }
+    dispatch(sendComment(authorizedUser.nickname, photoId, comment));
+  };
 
   return (
-    <Layout nickName={authorizedUser.nickname} id={authorizedUser.id} avatarUrl={authorizedUser.avatarUrl} >
+    <Layout nickName={authorizedUser.nickname} id={authorizedUser.id} avatarUrl={authorizedUser.avatarUrl}>
       <div className="cnMainPageRoot">
-        <InfiniteScroll
-          dataLength={photos.length}
-          next={nextHandler}
-          hasMore={photos.length < total}
-          loader={
-            <div className="cnMainLoaderContainer">
-              <Bars color="#FF0000" height={15} width={15} />
-            </div>
-          }
-          endMessage={<p className="cnMainLoaderContainer">Thats all!</p>}
-        >
-          {loading ? (
-            <div className="cnMainLoaderContainer">
-              <Bars color="#FF0000" height={80} width={80} />
-            </div>
-          ) : (
-            photos.map(({ author, imgUrl, id, likes, comments }) => (
+        {!isError && !isLoading && (
+          <InfiniteScroll
+            dataLength={photos.length}
+            next={nextHandler}
+            hasMore={photos.length < total}
+            loader={
+              <div className="cnMainLoaderContainer">
+                <Bars color="#FF0000" height={15} width={15} />
+              </div>
+            }
+            endMessage={<p className="cnMainLoaderContainer">Thats all!</p>}
+          >
+            {photos.map(({ author, imgUrl, id, likes, comments }) => (
               <DetailedCard
                 key={id}
                 id={id}
@@ -64,16 +59,16 @@ const MainPage = () => {
                 avatarUrl={author.avatarUrl}
                 imgUrl={imgUrl}
                 likes={likes.length}
-                isLikedByYou={likes.includes(authorizedUser.id)}
+                isLikeByYou={likes.includes(authorizedUser.id)}
                 comments={comments}
                 className="cnMainPageCard"
                 onLikeClick={onLikeClick}
                 onCommentSendClick={onCommentSendClick}
                 mutateLoading={mutateLoading}
               />
-            ))
-          )}
-        </InfiniteScroll>
+            ))}
+          </InfiniteScroll>
+        )}
       </div>
     </Layout>
   );

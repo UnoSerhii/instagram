@@ -37,7 +37,7 @@ const PageRoutes = () => {
         {authorizedUser ? (
           authorizedRoutes.map((route) => <Route {...route} key={route.path} />)
         ) : (
-          <Route path="/" element={<NotAccessPage />} exact />
+          <Route path="*" element={<NotAccessPage />} exact />
         )}
       </Routes>
     </BrowserRouter>

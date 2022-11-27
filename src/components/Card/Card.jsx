@@ -5,7 +5,8 @@ import "./styles.scss";
 const Card = ({ imgUrl, likes, comments, isLikeByYou, onLikeClick, onCommentSubmit, id, userData, isMutateLoading }) => {
   const [isModalVisible, setModalVisible] = useState(false);
   const [comment, setComment] = useState("");
-
+  
+  console.log(isLikeByYou, 'like');
   return (
     <div className="cnCardRoot">
       <img src={imgUrl} alt={imgUrl} className="cnCardImage" />
@@ -26,7 +27,7 @@ const Card = ({ imgUrl, likes, comments, isLikeByYou, onLikeClick, onCommentSubm
         onCommentSubmit={() => onCommentSubmit(comment)}
         isCommentLoading={isMutateLoading}
         imgUrl={imgUrl}
-        isLikedByYou={isLikeByYou}
+        isLikeByYou={isLikeByYou}
         onLikeClick={() => onLikeClick(id)}
       />
     </div>

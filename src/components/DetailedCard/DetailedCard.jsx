@@ -1,5 +1,6 @@
 import { nanoid } from "nanoid";
 import { useState } from "react";
+import { Bars } from "react-loader-spinner";
 import Comment from "../Comment/Comment";
 import PhotoModal from "../PhotoModal/PhotoModal";
 import TextArea from "../TextArea/TextArea";
@@ -12,7 +13,7 @@ const DetailedCard = ({
   avatarUrl,
   imgUrl,
   likes,
-  isLikedByYou,
+  isLikeByYou,
   comments,
   onLikeClick,
   id,
@@ -22,6 +23,7 @@ const DetailedCard = ({
   const [isCommentsShow, setIsCommentsShow] = useState(false);
   const [comment, setComment] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
 
   const handleSendCommentClick = () => {
     if (comment) {
@@ -64,11 +66,17 @@ const DetailedCard = ({
       <div className="cnDetailedCardHeader">
         <UserBadge nickName={userName} avatarUrl={avatarUrl} id={userId} />
       </div>
-      <div>
-        <img src={imgUrl} alt="img" className="cnDetailedCardImg" />
+      <div className="cnDetailedCardImgWrapper">
+        {!isImageLoaded && <div className="cnImageLoader"> <Bars color="#FF0000" width={15} height={15} /></div>}
+        <img
+          src={imgUrl}
+          alt="img"
+          className={`${isImageLoaded ? "cnDetailedCardImgLoaded" : ""} cnDetailedCardImg`}
+          onLoad={() => setIsImageLoaded(true)}
+        />
       </div>
       <div className="cnDetailedCardButtons">
-        <i onClick={() => onLikeClick(id)} className={`${isLikedByYou ? "fas" : "far"} fa-heart cnDetailedLikeIcon`} />
+        <i onClick={() => onLikeClick(id)} className={`${isLikeByYou ? "fas" : "far"} fa-heart cnDetailedLikeIcon`} />
         <i className="far fa-comment cnDetailedLikeComment" onClick={onOpenModal} />
       </div>
       <div className="cnDetailedCardLikes">{`Like ${likes} people`}</div>
@@ -94,7 +102,7 @@ const DetailedCard = ({
         onCommentSubmit={handleSendCommentClick}
         isCommentLoading={mutateLoading}
         imgUrl={imgUrl}
-        isLikedByYou={isLikedByYou}
+        isLikeByYou={isLikeByYou}
         onLikeClick={() => onLikeClick(id)}
       />
     </div>

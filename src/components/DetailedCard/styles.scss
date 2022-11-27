@@ -19,6 +19,16 @@
   height: 100%;
   width: 100%;
   object-fit: cover;
+  opacity: 0;
+  transition: 1s;
+}
+
+.cnDetailedCardImgLoaded {
+  opacity: 1;
+}
+
+.cnDetailedCardImgWrapper {
+  position: relative;
 }
 
 .cnDetailedCardButtons {
@@ -45,4 +55,17 @@
 
 .cnDetailedLikeComment {
   cursor: pointer;
+}
+
+.cnDetailedCardLikeCommentTitle {
+  color: #dbdbdb;
+  cursor: pointer;
+}
+
+.cnImageLoader {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  top: 150px;
 }
